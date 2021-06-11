@@ -2,22 +2,21 @@
 from urllib.parse import quote_plus
 import praw
 
-#Enter your correct Reddit information into the variable below
-
 QUESTIONS = ["what is", "who is", "what are"]
 REPLY_TEMPLATE = "[Let me google that for you](https://lmgtfy.com/?q={})"
 REPLY_MESSAGE = "Hello, you have summoned me!"
 
+#Enter your correct Reddit information into the variable below
 reddit = praw.Reddit(
     user_agent="Dummy Bot",
-    client_id="GYrIAUrSjt-egA",
-    client_secret="5wQtzMpPtC6SMon3_TZhYsNKHL59LA",
-    username="CumFartsAreOver",
+    client_id="wb5_poZESLKZ0Q",
+    client_secret="OzbPjQyO4PHJfS5lPZM5FfnynACphA",
+    username="BloodInTheWalter",
     password="Spidvagon01",)
 
 numFound = 0
 
-subreddit = reddit.subreddit('testingground4bots') #any subreddit you want to monitor
+subreddit = reddit.subreddit('Anime') #any subreddit you want to monitor
 
 bot_phrase = 'Hey, I like Anime!' #phrase that the bot replies with
 
@@ -66,13 +65,15 @@ def process_submission(submission):
             # A reply has been made so do not attempt to match other phrases.
             break
 
-for submission in subreddit.new(limit=10):
-    process_submission(submission)
 
-def run_bot(reddit):
+def run_bot():
     print("Obtaining 25 comments...")
-    for comment in reddit.subreddit.stream.comments(skip_existing=True):
+    for comment in subreddit.comments(skip_existing=True):
         if "Hey, Dummy Bot!".lower() in comment.body.lower() and comment.author != reddit.user.me():
             print('String summoning me has been found in comment {}',format(comment.id))
             comment.reply(REPLY_MESSAGE)
             print("Replied to comment " + comment.id)
+
+for submission in subreddit.new(limit=10):
+    process_submission(submission)
+    run_bot()
